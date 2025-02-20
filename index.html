@@ -24,34 +24,16 @@
             box-sizing: border-box;
             font-size: 16px; /* Larger font for better readability */
         }
-        #output {
-            margin-top: 20px;
-            white-space: pre-wrap;
-            font-family: monospace;
-            background-color: #f9f9f9;
-            padding: 15px;
-            border: 1px solid #ccc;
-            font-size: 14px; /* Slightly smaller font for output */
-        }
-        #submitOrderButton, #whatsappButton {
+        #whatsappButton {
             margin-top: 10px;
             padding: 12px 24px;
             font-size: 16px;
             border: none;
             cursor: pointer;
             border-radius: 5px; /* Rounded corners for better aesthetics */
-        }
-        #submitOrderButton {
-            background-color: #007bff; /* Blue color */
-            color: white;
-            font-weight: bold;
-        }
-        #submitOrderButton:hover {
-            background-color: #0056b3; /* Darker blue on hover */
-        }
-        #whatsappButton {
             background-color: #25D366; /* WhatsApp green */
             color: white;
+            font-weight: bold;
         }
         #whatsappButton:hover {
             background-color: #128C7E; /* Darker WhatsApp green */
@@ -74,9 +56,6 @@
             button {
                 font-size: 16px;
                 padding: 12px 20px;
-            }
-            #output {
-                font-size: 14px;
             }
         }
     </style>
@@ -113,13 +92,9 @@
                    inputmode="numeric" pattern="[0-9]*" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
         </div>
 
-        <!-- Submit Button -->
-        <button type="submit" id="submitOrderButton">Submit Order</button>
+        <!-- Share to WhatsApp Button -->
+        <button type="button" id="whatsappButton" onclick="submitAndShare()">Share to WhatsApp</button>
     </form>
-
-    <!-- Output Section -->
-    <div id="output"></div>
-    <button id="whatsappButton" onclick="shareToWhatsApp()">Share to WhatsApp</button>
 
     <script>
         // Function to get tomorrow's date in dd.mm.yy format
@@ -136,10 +111,8 @@
         // Set tomorrow's date in the date input field
         document.getElementById('date').value = getTomorrowsDate();
 
-        // Handle form submission
-        document.getElementById('orderForm').addEventListener('submit', function(event) {
-            event.preventDefault(); // Prevent form from submitting
-
+        // Combined function to submit the form and share to WhatsApp
+        function submitAndShare() {
             // Get input values
             const date = document.getElementById('date').value;
             const whitePizza = document.getElementById('white-pizza').value.trim();
@@ -148,7 +121,12 @@
 
             // Check if all inputs are blank
             if (!whitePizza && !whiteBun && !whiteBread) {
-                document.getElementById('output').textContent = "NO ORDER";
+                const noOrderMessage = "NO ORDER"; // Define the "NO ORDER" message
+
+                // Share "NO ORDER" to WhatsApp
+                const encodedText = encodeURIComponent(noOrderMessage);
+                const whatsappURL = `https://wa.me/?text=${encodedText}`;
+                window.open(whatsappURL, '_blank');
                 return;
             }
 
@@ -163,20 +141,8 @@
             // Join items with a blank line between them
             outputMessage += items.join('\n\n');
 
-            // Display the final message
-            document.getElementById('output').textContent = outputMessage.trim();
-        });
-
-        // Share to WhatsApp function
-        function shareToWhatsApp() {
-            const outputText = document.getElementById('output').textContent;
-            if (!outputText) {
-                alert("Nothing to share!");
-                return;
-            }
-
             // Encode the output text for use in a URL
-            const encodedText = encodeURIComponent(outputText);
+            const encodedText = encodeURIComponent(outputMessage);
 
             // Create the WhatsApp URL
             const whatsappURL = `https://wa.me/?text=${encodedText}`;
