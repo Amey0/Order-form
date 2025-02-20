@@ -57,6 +57,12 @@
             background-color: #0056b3;
         }
 
+        /* Style for Larger Emojis */
+        .emoji-large {
+            font-size: 2rem; /* 4x the normal size */
+            vertical-align: middle; /* Align emojis properly with text */
+        }
+
         /* Media Queries for Mobile Devices */
         @media (max-width: 600px) {
             body {
@@ -88,26 +94,23 @@
 
         <!-- White Pizza Input -->
         <div class="form-group">
-            <label for="white-pizza">White Pizza 🍕:</label>
-            <input type="text" id="white-pizza" name="white-pizza" placeholder="Enter quantity" 
+            <label for="white-pizza"><span class="emoji-large">🍕</span> White Pizza: 8 inch</label>
+            <input type="text" id="white-pizza" name="white-pizza" placeholder="Enter quantity 🍕" 
                    inputmode="numeric" pattern="[0-9]*" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
-            <p><em>8 inch</em></p>
         </div>
 
         <!-- White Bun Input -->
         <div class="form-group">
-            <label for="white-bun">White Bun 🍔:</label>
-            <input type="text" id="white-bun" name="white-bun" placeholder="Enter quantity" 
+            <label for="white-bun"><span class="emoji-large">🍔</span> White Bun: 4 inch</label>
+            <input type="text" id="white-bun" name="white-bun" placeholder="Enter quantity 🍔" 
                    inputmode="numeric" pattern="[0-9]*" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
-            <p><em>4 inch</em></p>
         </div>
 
         <!-- White Bread Input -->
         <div class="form-group">
-            <label for="white-bread">White Bread 🍞:</label>
-            <input type="text" id="white-bread" name="white-bread" placeholder="Enter quantity" 
+            <label for="white-bread"><span class="emoji-large">🍞</span> White Bread: 5×5</label>
+            <input type="text" id="white-bread" name="white-bread" placeholder="Enter quantity 🍞" 
                    inputmode="numeric" pattern="[0-9]*" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
-            <p><em>5×5</em></p>
         </div>
 
         <!-- Submit Button -->
