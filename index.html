@@ -33,7 +33,7 @@
             border: 1px solid #ccc;
             font-size: 14px; /* Slightly smaller font for output */
         }
-        #submitOrderButton, #copyButton {
+        #submitOrderButton, #whatsappButton {
             margin-top: 10px;
             padding: 12px 24px;
             font-size: 16px;
@@ -42,19 +42,19 @@
             border-radius: 5px; /* Rounded corners for better aesthetics */
         }
         #submitOrderButton {
-            background-color: #28a745; /* Green color */
+            background-color: #007bff; /* Blue color */
             color: white;
             font-weight: bold;
         }
         #submitOrderButton:hover {
-            background-color: #218838; /* Darker green on hover */
+            background-color: #0056b3; /* Darker blue on hover */
         }
-        #copyButton {
-            background-color: #007bff;
+        #whatsappButton {
+            background-color: #25D366; /* WhatsApp green */
             color: white;
         }
-        #copyButton:hover {
-            background-color: #0056b3;
+        #whatsappButton:hover {
+            background-color: #128C7E; /* Darker WhatsApp green */
         }
 
         /* Style for Larger Emojis */
@@ -119,7 +119,7 @@
 
     <!-- Output Section -->
     <div id="output"></div>
-    <button id="copyButton" onclick="copyToClipboard()">Copy to Clipboard</button>
+    <button id="whatsappButton" onclick="shareToWhatsApp()">Share to WhatsApp</button>
 
     <script>
         // Function to get tomorrow's date in dd.mm.yy format
@@ -127,11 +127,9 @@
             const today = new Date();
             const tomorrow = new Date(today);
             tomorrow.setDate(today.getDate() + 1); // Add one day
-
             const day = String(tomorrow.getDate()).padStart(2, '0'); // Ensure two digits
             const month = String(tomorrow.getMonth() + 1).padStart(2, '0'); // Months are zero-based
             const year = String(tomorrow.getFullYear()).slice(-2); // Last two digits of the year
-
             return `${day}.${month}.${year}`;
         }
 
@@ -169,50 +167,22 @@
             document.getElementById('output').textContent = outputMessage.trim();
         });
 
-        // Copy to clipboard function with fallback
-        function copyToClipboard() {
+        // Share to WhatsApp function
+        function shareToWhatsApp() {
             const outputText = document.getElementById('output').textContent;
             if (!outputText) {
-                alert("Nothing to copy!");
+                alert("Nothing to share!");
                 return;
             }
 
-            // Try using the modern Clipboard API
-            if (navigator.clipboard && navigator.clipboard.writeText) {
-                navigator.clipboard.writeText(outputText).then(() => {
-                    alert("Copied to clipboard!");
-                }).catch(err => {
-                    console.error("Failed to copy text: ", err);
-                    fallbackCopyToClipboard(outputText);
-                });
-            } else {
-                // Fallback for older browsers
-                fallbackCopyToClipboard(outputText);
-            }
-        }
+            // Encode the output text for use in a URL
+            const encodedText = encodeURIComponent(outputText);
 
-        // Fallback method for copying text
-        function fallbackCopyToClipboard(text) {
-            const textarea = document.createElement('textarea');
-            textarea.value = text;
-            textarea.style.position = 'fixed'; // Prevent scrolling to bottom
-            document.body.appendChild(textarea);
-            textarea.focus();
-            textarea.select();
+            // Create the WhatsApp URL
+            const whatsappURL = `https://wa.me/?text=${encodedText}`;
 
-            try {
-                const successful = document.execCommand('copy');
-                if (successful) {
-                    alert("Copied to clipboard!");
-                } else {
-                    alert("Failed to copy text. Please try again.");
-                }
-            } catch (err) {
-                console.error("Fallback copy failed: ", err);
-                alert("Failed to copy text. Please try again.");
-            }
-
-            document.body.removeChild(textarea);
+            // Open WhatsApp in a new tab or window
+            window.open(whatsappURL, '_blank');
         }
     </script>
 </body>
