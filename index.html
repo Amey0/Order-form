@@ -131,7 +131,7 @@
             }
 
             // Build the final message dynamically with blank lines between items (no emojis)
-            let outputMessage = `*Cheesy Mess*\n*FC Road*\n${date}\n\n`;
+            let outputMessage = `*CHEESY MESS*\n*FC ROAD*\n${date}\n\n`;
 
             const items = [];
             if (whitePizza) items.push(`White pizza - ${whitePizza}\n*8 inch*`);
@@ -139,7 +139,7 @@
             if (whiteBread) items.push(`White bread - ${whiteBread}\n*5×5*`);
 
             // Join items with a blank line between them
-            outputMessage += items.join('\n\n');
+            outputMessage += items.join('\n');
 
             // Encode the output text for use in a URL
             const encodedText = encodeURIComponent(outputMessage);
